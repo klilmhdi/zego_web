@@ -40,7 +40,10 @@
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
       zp = ZegoUIKitPrebuilt.create(kitToken);
-      zp.addPlugins({ ZegoSuperBoardManager });
+      if (showScreenSharing == true) {
+        zp.addPlugins({ ZegoSuperBoardManager });
+
+      }
       zp.joinRoom({
         container: document.querySelector("#root"),
         scenario: {
@@ -70,14 +73,11 @@
         },
         whiteboardConfig: {
           showAddImageButton: true, // It's set to false by default. To use this feature, activate the File Sharing feature, and then import the plugin. Otherwise, this prompt will occur: "Failed to add image, this feature is not supported."
-          showCreateAndCloseButton: true, // Whether to display the button that is used to create/turn off the whiteboard. Displayed by default.
+          showCreateAndCloseButton: showScreenSharing, // Whether to display the button that is used to create/turn off the whiteboard. Displayed by default.
         },
         showLeavingView: false,
         showLeaveRoomConfirmDialog: false,
         onJoinRoom: () => {
-
-
-
           console.log("onJoinRoom");
           window.parent.postMessage({ type: 'onJoinRoom' }, '*');
           console.log("message sent");
